@@ -1,9 +1,9 @@
 [Desktop Entry]
 
-Name=WhatsApp Desktop
-Exec=whatsapp-desktop-linux
+Name=Alovoa
+Exec=alovoa
 Type=Application
-Icon=io.github.mimbrero.WhatsAppDesktop
-Comment=An unofficial WhatsApp client for Linux, built with Electron.
+Icon=com.alovoa.alovoa
+Comment=Alovoa client, built with Electron.
 Categories=Utility;Network;Chat;InstantMessaging;
-StartupWMClass=whatsapp-desktop-linux
+StartupWMClass=alovoa-electron

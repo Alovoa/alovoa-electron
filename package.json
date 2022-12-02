@@ -1,7 +1,7 @@
 {
-  "name": "whatsapp-desktop-linux",
-  "version": "1.2.3-2",
-  "description": "WhatsApp Desktop for Linux (unofficial)",
+  "name": "alovoa-electron",
+  "version": "1.0.0",
+  "description": "Alovoa",
   "main": "dist/index.js",
   "scripts": {
     "dist": "tsc",
@@ -16,12 +16,12 @@
     "electron-store": "^8.1.0"
   },
   "devDependencies": {
-    "electron": "^21.0.1",
-    "electron-builder": "^23.3.3",
+    "electron": "^22.0.0",
+    "electron-builder": "^22.10.3",
     "typescript": "^4.8.4"
   },
   "build": {
-    "appId": "io.github.mimbrero.WhatsAppDesktop",
+    "appId": "com.alovoa.alovoa-electron",
     "directories": {
       "output": "./build"
     },
