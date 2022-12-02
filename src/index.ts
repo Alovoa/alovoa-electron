@@ -1,9 +1,9 @@
 import { app } from 'electron';
-import WhatsApp from './whatsapp';
+import Alovoa from './alovoa';
 
 if (!app.requestSingleInstanceLock()) {
     app.quit();
     process.exit();
 }
 
-app.whenReady().then(() => new WhatsApp().init());
+app.whenReady().then(() => new Alovoa().init());

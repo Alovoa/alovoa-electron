@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import Settings from '../settings';
-import WhatsApp from '../whatsapp';
+import Alovoa from '../alovoa';
 import Module from './module';
 
 const settings = new Settings("window");
@@ -8,7 +8,7 @@ const settings = new Settings("window");
 export default class WindowSettingsModule extends Module {
 
     constructor(
-        private readonly whatsApp: WhatsApp,
+        private readonly alovoa: Alovoa,
         private readonly window: BrowserWindow
     ) {
         super();

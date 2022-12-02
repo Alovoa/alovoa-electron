@@ -1,17 +1,17 @@
 import { BrowserWindow, Menu, MenuItem, Tray } from "electron";
 import { findIcon, getUnreadMessages } from "../util";
-import WhatsApp from "../whatsapp";
+import Alovoa from "../alovoa";
 import Module from "./module";
 
-const ICON = findIcon("io.github.mimbrero.WhatsAppDesktop.png");
-const ICON_UNREAD = findIcon("io.github.mimbrero.WhatsAppDesktop-unread.png");
+const ICON = findIcon("com.alovoa.AlovoaDesktop.png");
+const ICON_UNREAD = findIcon("com.alovoa.AlovoaDesktop-unread.png");
 
 export default class TrayModule extends Module {
 
     private readonly tray: Tray;
 
     constructor(
-        private readonly whatsApp: WhatsApp,
+        private readonly alovoa: Alovoa,
         private readonly window: BrowserWindow
     ) {
         super();
@@ -26,16 +26,16 @@ export default class TrayModule extends Module {
     private updateMenu(unread: number = getUnreadMessages(this.window.title)) {
         const menu = Menu.buildFromTemplate([
             {
-                label: this.window.isVisible() ? "Minimize to tray" : "Show WhatsApp",
+                label: this.window.isVisible() ? "Minimize to tray" : "Show Alovoa",
                 click: () => this.onClickFirstItem()
             },
             {
-                label: "Quit WhatsApp",
-                click: () => this.whatsApp.quit()
+                label: "Quit Alovoa",
+                click: () => this.alovoa.quit()
             }
         ]);
 
-        let tooltip = "WhatsApp Desktop";
+        let tooltip = "Alovoa";
 
         if (unread != 0) {
             menu.insert(0, new MenuItem({
@@ -68,7 +68,7 @@ export default class TrayModule extends Module {
         this.window.on("hide", () => this.updateMenu());
 
         this.window.on("close", event => {
-            if (this.whatsApp.quitting) return;
+            if (this.alovoa.quitting) return;
 
             event.preventDefault();
             this.window.hide();
