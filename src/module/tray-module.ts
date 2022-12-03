@@ -1,10 +1,12 @@
 import { BrowserWindow, Menu, MenuItem, Tray } from "electron";
-import { findIcon, getUnreadMessages } from "../util";
+import { findIcon, hasAlert } from "../util";
 import Alovoa from "../alovoa";
 import Module from "./module";
+import Settings from "../settings";
 
 const ICON = findIcon("com.alovoa.AlovoaDesktop.png");
 const ICON_UNREAD = findIcon("com.alovoa.AlovoaDesktop-unread.png");
+const settings = new Settings("tray");
 
 export default class TrayModule extends Module {
 
@@ -23,30 +25,28 @@ export default class TrayModule extends Module {
         this.registerListeners();
     }
 
-    private updateMenu(unread: number = getUnreadMessages(this.window.title)) {
+    private updateMenu() {
+        const startMinimized = settings.get('start-minimized');
         const menu = Menu.buildFromTemplate([
             {
-                label: this.window.isVisible() ? "Minimize to tray" : "Show Alovoa",
-                click: () => this.onClickFirstItem()
+                //TODO Translation
+                label: 'Start minimized',
+                type : "checkbox",
+                click: () => {
+                    settings.set('start-minimized', !startMinimized);
+                    this.updateMenu();
+                },
+                checked: startMinimized
             },
             {
-                label: "Quit Alovoa",
+                //TODO Translation
+                label: "Quit",
                 click: () => this.alovoa.quit()
             }
         ]);
 
+        //TODO variable
         let tooltip = "Alovoa";
-
-        if (unread != 0) {
-            menu.insert(0, new MenuItem({
-                label: unread + " unread chats",
-                enabled: false
-            }));
-
-            menu.insert(1, new MenuItem({ type: "separator" }));
-
-            tooltip = tooltip + " - " + unread + " unread chats";
-        }
 
         this.tray.setContextMenu(menu);
         this.tray.setToolTip(tooltip);
@@ -64,8 +64,6 @@ export default class TrayModule extends Module {
     }
 
     private registerListeners() {
-        this.window.on("show", () => this.updateMenu());
-        this.window.on("hide", () => this.updateMenu());
 
         this.window.on("close", event => {
             if (this.alovoa.quitting) return;
@@ -74,13 +72,16 @@ export default class TrayModule extends Module {
             this.window.hide();
         });
 
+        this.tray.on("click", event => {
+            this.onClickFirstItem();
+        });
+
         this.window.webContents.on("page-title-updated", (_event, title, explicitSet) => {
             if (!explicitSet) return;
 
-            let unread = getUnreadMessages(title);
+            let showDot: boolean = hasAlert(title);
 
-            this.updateMenu(unread);
-            this.tray.setImage(unread == 0 ? ICON : ICON_UNREAD);
+            this.tray.setImage(showDot ? ICON_UNREAD : ICON);
         });
     }
 };

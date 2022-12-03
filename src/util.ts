@@ -11,9 +11,8 @@ export function findIcon(name: string) {
     return nativeImage.createFromPath(iconPath);
 }
 
-export function getUnreadMessages(title: string) {
-    const matches = title.match(/\(\d+\) Alovoa/);
-    return matches == null ? 0 : Number.parseInt(matches[0].match(/\d+/)[0]);
+export function hasAlert(title: string) {
+    return title.includes("(!)");
 }
 
 function fromDataDirs(iconPath: string) {

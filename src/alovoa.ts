@@ -6,23 +6,29 @@ import HotkeyModule from "./module/hotkey-module";
 import ModuleManager from "./module/module-manager";
 import TrayModule from "./module/tray-module";
 import WindowSettingsModule from "./module/window-settings-module";
+import Settings from "./settings";
 
 const USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.9999.0 Safari/537.36";
+const traySettings = new Settings("tray");
 
 export default class Alovoa {
 
     private readonly window: BrowserWindow;
     private readonly moduleManager: ModuleManager;
+    private readonly WEB_URL: string = 'https://alovoa.com/';
+    //private readonly WEB_URL: string = 'http://localhost:8080/';
+    
     public quitting = false;
 
     constructor() {
+        
         this.window = new BrowserWindow({
             title: "Alovoa",
             width: 1100,
             height: 700,
-            minWidth: 650,
-            minHeight: 550,
-            show: !process.argv.includes("--start-hidden"),
+            minWidth: 310,
+            minHeight: 600,
+            show: !process.argv.includes("--start-hidden") && !traySettings.get('start-minimized'),
             webPreferences: {
                 preload: path.join(__dirname, 'preload.js'),
                 contextIsolation: false // native Notification override in preload :(
@@ -45,7 +51,7 @@ export default class Alovoa {
         this.moduleManager.beforeLoad();
 
         this.window.setMenu(null);
-        this.window.loadURL('https://web.alovoa.com/', { userAgent: USER_AGENT });
+        this.window.loadURL(this.WEB_URL, { userAgent: USER_AGENT });
 
         this.moduleManager.onLoad();
     }
