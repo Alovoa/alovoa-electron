@@ -3,10 +3,10 @@ import fs from "fs";
 import path from "path";
 
 export function findIcon(name: string) {
-    let iconPath = fromDataDirs("icons/hicolor/512x512/apps/" + name);
+    let iconPath = fromDataDirs("icons/" + name);
 
     if (iconPath === null)
-        iconPath = path.join("./data/icons/hicolor/512x512/apps/", name);
+        iconPath = path.join("./data/icons/", name);
 
     return nativeImage.createFromPath(iconPath);
 }

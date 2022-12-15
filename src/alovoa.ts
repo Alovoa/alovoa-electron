@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
+import { findIcon } from "./util";
 import ChromeVersionFix from "./fix/chrome-version-fix";
 import Electron21Fix from "./fix/electron-21-fix";
 import HotkeyModule from "./module/hotkey-module";
@@ -21,13 +22,13 @@ export default class Alovoa {
     public quitting = false;
 
     constructor() {
-        
         this.window = new BrowserWindow({
             title: "Alovoa",
             width: 1100,
             height: 700,
             minWidth: 310,
             minHeight: 600,
+            icon: findIcon("icon.png"),
             show: !process.argv.includes("--start-hidden") && !traySettings.get('start-minimized'),
             webPreferences: {
                 preload: path.join(__dirname, 'preload.js'),

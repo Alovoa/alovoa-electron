@@ -4,21 +4,22 @@ import Alovoa from "../alovoa";
 import Module from "./module";
 import Settings from "../settings";
 
-const ICON = findIcon("com.alovoa.alovoa-electron.png");
-const ICON_UNREAD = findIcon("com.alovoa.alovoa-electron-unread.png");
 const settings = new Settings("tray");
 
 export default class TrayModule extends Module {
-
+ 
     private readonly tray: Tray;
     private hasNotification = false;
+
+    private ICON = findIcon("tray.png");
+    private ICON_UNREAD = findIcon("tray-unread.png");
 
     constructor(
         private readonly alovoa: Alovoa,
         private readonly window: BrowserWindow
     ) {
         super();
-        this.tray = new Tray(ICON);
+        this.tray = new Tray(this.ICON);
     }
 
     public override onLoad() {
@@ -92,7 +93,7 @@ export default class TrayModule extends Module {
 
 
             let showDot: boolean = hasAlert(title);
-            this.tray.setImage(showDot ? ICON_UNREAD : ICON);
+            this.tray.setImage(showDot ? this.ICON_UNREAD : this.ICON);
 
             if (showDot && !this.hasNotification) {
                 this.showNotification();

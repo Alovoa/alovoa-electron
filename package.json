@@ -10,18 +10,19 @@
     "start": "npm run dist && electron .",
     "build": "npm run dist && electron-builder"
   },
-  "author": "Nho Quy Dinh",
+  "author": "Nho Quy Dinh <contact@alovoa.com>",
   "license": "MIT",
   "dependencies": {
     "electron-store": "^8.1.0"
   },
   "devDependencies": {
     "electron": "^22.0.0",
-    "electron-builder": "^22.10.3",
+    "electron-builder": "^23.6.0",
     "typescript": "^4.8.4"
   },
   "build": {
     "appId": "com.alovoa.alovoa-electron",
+    "productName": "Alovoa",
     "directories": {
       "output": "./build"
     },
@@ -32,14 +33,15 @@
     "extraFiles": [
       "data"
     ],
-    "win": {
-      "icon": "./data/icons/icon.png"
-    },
+    "win": {},
     "mac": {
-      "icon": "./data/icons/icon.png"
+      "icon": "../data/icons/icon.icns"
     },
     "linux": {
-      "icon": "./data/icons/icon.png"
+      "icon": "../data/icons/icon.icns",
+      "target": [
+        "flatpak"
+      ]
     }
   }
 }
