@@ -1,16 +1,17 @@
-import { BrowserWindow, Menu, MenuItem, Tray } from "electron";
+import { BrowserWindow, Menu, MenuItem, Tray, Notification } from "electron";
 import { findIcon, hasAlert } from "../util";
 import Alovoa from "../alovoa";
 import Module from "./module";
 import Settings from "../settings";
 
-const ICON = findIcon("com.alovoa.AlovoaDesktop.png");
-const ICON_UNREAD = findIcon("com.alovoa.AlovoaDesktop-unread.png");
+const ICON = findIcon("com.alovoa.alovoa-electron.png");
+const ICON_UNREAD = findIcon("com.alovoa.alovoa-electron-unread.png");
 const settings = new Settings("tray");
 
 export default class TrayModule extends Module {
 
     private readonly tray: Tray;
+    private hasNotification = false;
 
     constructor(
         private readonly alovoa: Alovoa,
@@ -31,7 +32,7 @@ export default class TrayModule extends Module {
             {
                 //TODO Translation
                 label: 'Start minimized',
-                type : "checkbox",
+                type: "checkbox",
                 click: () => {
                     settings.set('start-minimized', !startMinimized);
                     this.updateMenu();
@@ -63,6 +64,15 @@ export default class TrayModule extends Module {
         this.updateMenu();
     }
 
+    private readonly NOTIFICATION_TITLE = 'Alovoa';
+    private readonly NOTIFICATION_BODY = 'New like or message'; //TODO Translation
+
+    private showNotification() {
+        if (Notification.isSupported()) {
+            new Notification({ title: this.NOTIFICATION_TITLE, body: this.NOTIFICATION_BODY }).show();
+        }
+    }
+
     private registerListeners() {
 
         this.window.on("close", event => {
@@ -77,11 +87,17 @@ export default class TrayModule extends Module {
         });
 
         this.window.webContents.on("page-title-updated", (_event, title, explicitSet) => {
+            console.log("page-title-updated");
             if (!explicitSet) return;
 
-            let showDot: boolean = hasAlert(title);
 
+            let showDot: boolean = hasAlert(title);
             this.tray.setImage(showDot ? ICON_UNREAD : ICON);
+
+            if (showDot && !this.hasNotification) {
+                this.showNotification();
+            }
+            this.hasNotification = showDot;
         });
     }
 };
