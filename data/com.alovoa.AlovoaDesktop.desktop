@@ -4,7 +4,7 @@
 Name=Alovoa
 Exec=alovoa
 Type=Application
-Icon=com.alovoa.alovoa
+Icon=com.alovoa.alovoa-electron
 Comment=Alovoa client, built with Electron.
 Categories=Utility;Network;Chat;InstantMessaging;
 StartupWMClass=alovoa-electron
