@@ -14,6 +14,7 @@ export default class TrayModule extends Module {
     private readonly tray: Tray;
     private hasNotification = false;
     private darkTheme = false;
+    private forceDarkTheme = false;
 
     private ICON = findIcon("com.alovoa.alovoa-electron-tray.png");
     private ICON_UNREAD = findIcon("com.alovoa.alovoa-electron-tray-unread.png");
@@ -37,6 +38,7 @@ export default class TrayModule extends Module {
 
     private updateMenu() {
         const startMinimized = settings.get('start-minimized');
+        const forceDarkTheme = settings.get('force-dark-theme');
         const menu = Menu.buildFromTemplate([
             {
                 //TODO Translation
@@ -47,6 +49,18 @@ export default class TrayModule extends Module {
                     this.updateMenu();
                 },
                 checked: startMinimized
+            },
+            {
+                //TODO Translation
+                label: 'Force dark theme',
+                type: "checkbox",
+                click: () => {
+                    settings.set('force-dark-theme', !forceDarkTheme);
+                    this.forceDarkTheme = !forceDarkTheme;
+                    this.updateMenu();
+                    this.alovoa.updateTheme();
+                },
+                checked: forceDarkTheme
             },
             {
                 //TODO Translation
@@ -80,7 +94,7 @@ export default class TrayModule extends Module {
     }
 
     private updateTrayIcon() {
-        var isDark = nativeTheme.shouldUseDarkColors;
+        var isDark = this.forceDarkTheme = nativeTheme.shouldUseDarkColors;
         if(this.darkTheme && this.hasNotification) {
             this.tray.setImage(this.ICON_UNREAD_LIGHT);
         } else if (!isDark && this.hasNotification) {
@@ -117,6 +131,7 @@ export default class TrayModule extends Module {
 
         nativeTheme.on('updated', event => {
             this.updateTrayIcon();
+            this.alovoa.updateTheme();
         }) 
     }
 };

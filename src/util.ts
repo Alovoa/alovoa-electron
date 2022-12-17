@@ -8,7 +8,6 @@ export function findIcon(name: string) {
     if (iconPath === null)
         iconPath = path.join("./data/icons/hicolor/512x512/apps/", name);
 
-    console.log(iconPath)
     var img = nativeImage.createFromPath(iconPath);
     img.setTemplateImage(true);
     return img;

@@ -36,9 +36,7 @@ export default class Alovoa {
             }
         });
 
-        ipcMain.handle('dark-mode:system', () => {
-            nativeTheme.themeSource = 'system'
-        })
+        this.updateTheme();
 
         this.moduleManager = new ModuleManager([
             new Electron21Fix(),
@@ -87,5 +85,13 @@ export default class Alovoa {
         });
 
         ipcMain.on('notification-click', () => this.window.show());
+    }
+
+    public updateTheme() {
+        if (traySettings.get('force-dark-theme')) {
+            nativeTheme.themeSource = 'dark'
+        } else {
+            nativeTheme.themeSource = 'system'
+        }  
     }
 };
