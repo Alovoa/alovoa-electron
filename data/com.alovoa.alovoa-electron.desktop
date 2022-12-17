@@ -2,7 +2,7 @@
 [Desktop Entry]
 
 Name=Alovoa
-Exec=flatpak run com.alovoa.alovoa-electron
+Exec=run.sh
 Type=Application
 Icon=com.alovoa.alovoa-electron
 Comment=An official Alovoa client for Linux, built with Electron.
