@@ -20,16 +20,11 @@ finish-args:
   # required for notifications in various desktop environments
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
-  # required for advanced input methods e.g. writing CJK languages
-  - --talk-name=org.freedesktop.portal.Fcitx
-  # gtk-cups-backend
-  - --env=GTK_PATH=/app/lib/gtkmodules
-  - --socket=cups
-  - --system-talk-name=org.freedesktop.Avahi
-  # Tray icon
-  - --talk-name=org.kde.StatusNotifierWatcher
+  # Tray
   - --talk-name=com.canonical.indicator.application
   - --talk-name=org.ayatana.indicator.application
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
   # File system access
   - --filesystem=home
 build-options:
@@ -60,6 +55,10 @@ modules:
       - install -Dm644 data/com.alovoa.alovoa-electron.desktop -t /app/share/applications/
       - install -Dm644 data/icons/hicolor/scalable/apps/com.alovoa.alovoa-electron.svg -t /app/share/icons/hicolor/scalable/apps/
       - install -Dm644 data/icons/hicolor/512x512/apps/com.alovoa.alovoa-electron.png -t /app/share/icons/hicolor/512x512/apps/
+      - install -Dm644 data/icons/hicolor/512x512/apps/com.alovoa.alovoa-electron-tray.png -t /app/share/icons/hicolor/512x512/apps/
+      - install -Dm644 data/icons/hicolor/512x512/apps/com.alovoa.alovoa-electron-tray-unread.png -t /app/share/icons/hicolor/512x512/apps/
+      - install -Dm644 data/icons/hicolor/512x512/apps/com.alovoa.alovoa-electron-tray-light.png -t /app/share/icons/hicolor/512x512/apps/
+      - install -Dm644 data/icons/hicolor/512x512/apps/com.alovoa.alovoa-electron-tray-unread-light.png -t /app/share/icons/hicolor/512x512/apps/
     subdir: main
     sources:
       #- type: archive

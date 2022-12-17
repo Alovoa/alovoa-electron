@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "electron": "^22.0.0",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^22.10.3",
     "typescript": "^4.8.4"
   },
   "build": {
@@ -38,7 +38,7 @@
     "linux": {
       "icon": "../data/icons/icon.icns",
       "target": [
-        "flatpak"
+        "appimage"
       ]
     }
   }
