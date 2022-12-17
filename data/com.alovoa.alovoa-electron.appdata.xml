@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>alovoa.com.alovoa-electron</id>
+  <id>com.alovoa.alovoa-electron</id>
   <name>Alovoa</name>
   <summary>Open-source online dating application</summary>
 

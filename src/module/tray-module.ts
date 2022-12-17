@@ -1,4 +1,4 @@
-import { BrowserWindow, Menu, MenuItem, Tray, Notification } from "electron";
+import { BrowserWindow, Menu, Tray, Notification, nativeTheme } from "electron";
 import { findIcon, hasAlert } from "../util";
 import Alovoa from "../alovoa";
 import Module from "./module";
@@ -7,18 +7,26 @@ import Settings from "../settings";
 const settings = new Settings("tray");
 
 export default class TrayModule extends Module {
+
+    private readonly NOTIFICATION_TITLE = 'Alovoa';
+    private readonly NOTIFICATION_BODY = 'New like or message'; //TODO Translation
  
     private readonly tray: Tray;
     private hasNotification = false;
+    private darkTheme = false;
 
-    private ICON = findIcon("tray.png");
-    private ICON_UNREAD = findIcon("tray-unread.png");
+    private ICON = findIcon("com.alovoa.alovoa-electron-tray.png");
+    private ICON_UNREAD = findIcon("com.alovoa.alovoa-electron-tray-unread.png");
+    private ICON_LIGHT = findIcon("com.alovoa.alovoa-electron-tray-light.png");
+    private ICON_UNREAD_LIGHT = findIcon("com.alovoa.alovoa-electron-tray-unread-light.png");
+    
 
     constructor(
         private readonly alovoa: Alovoa,
         private readonly window: BrowserWindow
     ) {
         super();
+        this.darkTheme = nativeTheme.shouldUseDarkColors;
         this.tray = new Tray(this.ICON);
     }
 
@@ -65,12 +73,22 @@ export default class TrayModule extends Module {
         this.updateMenu();
     }
 
-    private readonly NOTIFICATION_TITLE = 'Alovoa';
-    private readonly NOTIFICATION_BODY = 'New like or message'; //TODO Translation
-
     private showNotification() {
         if (Notification.isSupported()) {
             new Notification({ title: this.NOTIFICATION_TITLE, body: this.NOTIFICATION_BODY }).show();
+        }
+    }
+
+    private updateTrayIcon() {
+        var isDark = nativeTheme.shouldUseDarkColors;
+        if(this.darkTheme && this.hasNotification) {
+            this.tray.setImage(this.ICON_UNREAD_LIGHT);
+        } else if (!isDark && this.hasNotification) {
+            this.tray.setImage(this.ICON_UNREAD);
+        } else if (isDark && !this.hasNotification) {
+            this.tray.setImage(this.ICON_LIGHT);
+        } else {
+            this.tray.setImage(this.ICON);
         }
     }
 
@@ -88,17 +106,17 @@ export default class TrayModule extends Module {
         });
 
         this.window.webContents.on("page-title-updated", (_event, title, explicitSet) => {
-            console.log("page-title-updated");
             if (!explicitSet) return;
-
-
             let showDot: boolean = hasAlert(title);
-            this.tray.setImage(showDot ? this.ICON_UNREAD : this.ICON);
-
             if (showDot && !this.hasNotification) {
                 this.showNotification();
             }
             this.hasNotification = showDot;
+            this.updateTrayIcon();
         });
+
+        nativeTheme.on('updated', event => {
+            this.updateTrayIcon();
+        }) 
     }
 };

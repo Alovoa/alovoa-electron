@@ -3,12 +3,15 @@ import fs from "fs";
 import path from "path";
 
 export function findIcon(name: string) {
-    let iconPath = fromDataDirs("icons/" + name);
+    let iconPath = fromDataDirs("icons/hicolor/512x512/apps/" + name);
 
     if (iconPath === null)
-        iconPath = path.join("./data/icons/", name);
+        iconPath = path.join("./data/icons/hicolor/512x512/apps/", name);
 
-    return nativeImage.createFromPath(iconPath);
+    console.log(iconPath)
+    var img = nativeImage.createFromPath(iconPath);
+    img.setTemplateImage(true);
+    return img;
 }
 
 export function hasAlert(title: string) {

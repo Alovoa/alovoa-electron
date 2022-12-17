@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+
+Name=Alovoa
+Exec=flatpak run com.alovoa.alovoa-electron
+Type=Application
+Icon=com.alovoa.alovoa-electron
+Comment=An official Alovoa client for Linux, built with Electron.
+Categories=Utility;Network;Chat;InstantMessaging;
+StartupWMClass=alovoa-electron
+ 

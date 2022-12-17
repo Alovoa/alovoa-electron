@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell } from "electron";
+import { app, BrowserWindow, ipcMain, shell, nativeTheme } from "electron";
 import path from "path";
 import { findIcon } from "./util";
 import ChromeVersionFix from "./fix/chrome-version-fix";
@@ -28,13 +28,17 @@ export default class Alovoa {
             height: 700,
             minWidth: 310,
             minHeight: 600,
-            icon: findIcon("icon.png"),
+            icon: findIcon("com.alovoa.alovoa-electron.png"),
             show: !process.argv.includes("--start-hidden") && !traySettings.get('start-minimized'),
             webPreferences: {
                 preload: path.join(__dirname, 'preload.js'),
                 contextIsolation: false // native Notification override in preload :(
             }
         });
+
+        ipcMain.handle('dark-mode:system', () => {
+            nativeTheme.themeSource = 'system'
+        })
 
         this.moduleManager = new ModuleManager([
             new Electron21Fix(),

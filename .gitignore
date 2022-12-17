@@ -1,3 +1,4 @@
+
 # Node
 node_modules/
 
@@ -6,3 +7,7 @@ dist/
 
 # Electron builder output
 build/
+
+#Flatpak
+flatpak/build
+flatpak/.flatpak-builder
