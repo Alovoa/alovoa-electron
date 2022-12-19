@@ -27,6 +27,7 @@ finish-args:
   - --own-name=org.kde.*
   # File system access
   - --filesystem=home
+  - --filesystem=xdg-data/themes
 build-options:
   append-path: /usr/lib/sdk/node14/bin
   env:
