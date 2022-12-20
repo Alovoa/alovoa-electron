@@ -48,7 +48,6 @@ export default class Alovoa {
     }
 
     public init() {
-        this.makeLinksOpenInBrowser();
         this.registerListeners();
 
         this.moduleManager.beforeLoad();
@@ -67,15 +66,6 @@ export default class Alovoa {
         this.quitting = true;
         this.moduleManager.onQuit();
         app.quit();
-    }
-    
-    private makeLinksOpenInBrowser() {
-        this.window.webContents.setWindowOpenHandler(details => {
-            if (details.url != this.window.webContents.getURL()) {
-                shell.openExternal(details.url);
-                return { action: 'deny' };
-            }
-        });
     }
 
     private registerListeners() {
