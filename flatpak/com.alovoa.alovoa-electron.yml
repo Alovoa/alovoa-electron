@@ -10,7 +10,6 @@ command: run.sh
 separate-locales: false
 finish-args:
   - --device=dri
-  - --filesystem=xdg-download
   - --share=ipc
   - --share=network
   - --socket=pulseaudio
@@ -28,6 +27,10 @@ finish-args:
   # File system access
   - --filesystem=home
   - --filesystem=xdg-data/themes
+  - --filesystem=xdg-config/gtk-3.0
+  - --filesystem=xdg-config/kdeglobals:ro
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.AppMenu.Registrar.*
 build-options:
   append-path: /usr/lib/sdk/node14/bin
   env:
