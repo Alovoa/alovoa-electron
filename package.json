@@ -4,7 +4,7 @@
   "description": "Alovoa",
   "main": "dist/index.js",
   "scripts": {
-    "dist": "electron-builder",
+    "dist": "tsc && electron-builder",
     "start": "tsc && electron .",
     "build": "tsc && electron-builder"
   },
