@@ -1,4 +1,4 @@
-# Alovoa Desktop for Linux (unofficial)
+# Alovoa Desktop for Linux
 Alovoa Linux client built with Electron. Forked from this repository: https://github.com/mimbrero/whatsapp-desktop-linux
 
 
