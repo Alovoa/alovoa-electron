@@ -38,7 +38,6 @@
     "linux": {
       "icon": "../data/icons/icon.icns",
       "target": [
-        "appimage"
       ]
     }
   }
